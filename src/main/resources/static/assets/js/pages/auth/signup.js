@@ -19,15 +19,15 @@ var SignUp = function () {
 		// Validation before going to next page
 		_wizard.on('beforeNext', function (wizard) {
 			_validations[wizard.getStep() - 1].validate().then(function (status) {
-				if (status == 'Valid') {
+				if (status === 'Valid') {
 					_wizard.goNext();
 					KTUtil.scrollTop();
 				} else {
 					Swal.fire({
-						text: "Sorry, looks like there are some errors detected, please try again.",
+						text: "오류가 발생하였습니다. 확인해주세요.",
 						icon: "error",
 						buttonsStyling: false,
-						confirmButtonText: "Ok, got it!",
+						confirmButtonText: "OK",
 						customClass: {
 							confirmButton: "btn font-weight-bold btn-light"
 						}
@@ -53,37 +53,48 @@ var SignUp = function () {
 			_formEl,
 			{
 				fields: {
-					fname: {
-						validators: {
-							notEmpty: {
-								message: 'First name is required'
-							}
-						}
-					},
-					lname: {
-						validators: {
-							notEmpty: {
-								message: 'Last Name is required'
-							}
-						}
-					},
-					phone: {
-						validators: {
-							notEmpty: {
-								message: 'Phone is required'
-							}
-						}
-					},
 					email: {
 						validators: {
 							notEmpty: {
-								message: 'Email is required'
+								message: '필수값 입니다.'
 							},
 							emailAddress: {
-								message: 'The value is not a valid email address'
+								message: '이메일 형식이 아닙니다.'
+							},
+							callback: {
+								message: '중복된 이메일입니다.',
+								callback: function(input) {
+									return $("input[name=validEmail]").val() !== 'false';
+								}
 							}
 						}
-					}
+					},
+					password: {
+						validators: {
+							notEmpty: {
+								message: '필수값 입니다.'
+							},
+							minLength: {
+								message: '비밀번호는 8자리 이상으로 입력해주세요.'
+							},
+							maxLength: {
+								message: '비밀번호는 14자리 이하로 입력해주세요.'
+							}
+						}
+					},
+					checkPassword: {
+						validators: {
+							notEmpty: {
+								message: '필수값 입니다.'
+							},
+							callback: {
+								message: '비밀번호를 확인해주세요.',
+								callback: function(input) {
+									return $("input[name=checkPassword]").val() === $("input[name=password]").val();
+								}
+							}
+						}
+					},
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -97,6 +108,13 @@ var SignUp = function () {
 			_formEl,
 			{
 				fields: {
+					phone: {
+						validators: {
+							notEmpty: {
+								message: 'Phone is required'
+							}
+						}
+					},
 					address1: {
 						validators: {
 							notEmpty: {

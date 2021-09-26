@@ -1,6 +1,6 @@
 package com.couple.mall.web.register;
 
-import com.couple.mall.domain.RegisterService;
+import com.couple.mall.domain.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Controller
 @RequiredArgsConstructor
 public class RegisterController {
-    private final RegisterService registerService;
+    private final MemberService registerService;
 
     @GetMapping("/auth/signup")
     public String registerRequest(@ModelAttribute("registerRequest") RegisterRequest request){
