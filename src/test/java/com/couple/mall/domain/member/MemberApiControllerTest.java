@@ -40,15 +40,16 @@ class MemberApiControllerTest {
         String url = "http://localhost:" + port + "/api/check/email";
 
         //when
-        ResponseEntity<MemberFindByNicknameOrEmailResponse> responseNotHaveEntity
-                = restTemplate.postForEntity(url, haveNotHashMap, MemberFindByNicknameOrEmailResponse.class);
+        ResponseEntity<HashMap> responseNotHaveEntity
+                = restTemplate.postForEntity(url, haveNotHashMap, HashMap.class);
 
-        ResponseEntity<MemberFindByNicknameOrEmailResponse> responseHaveEntity
-                = restTemplate.postForEntity(url, haveHashMap, MemberFindByNicknameOrEmailResponse.class);
+        ResponseEntity<HashMap> responseHaveEntity
+                = restTemplate.postForEntity(url, haveHashMap, HashMap.class);
         //then
         assertThat(responseNotHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseNotHaveEntity.getBody()).isNull();
-        assertThat(Objects.requireNonNull(responseHaveEntity.getBody()).getEmail()).isEqualTo(hasEmail);
+        assertThat(responseNotHaveEntity.getBody().get("duplicate")).isEqualTo(false);
+        assertThat(responseHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseHaveEntity.getBody().get("duplicate")).isEqualTo(true);
     }
     @Test
     public void 닉네임_체크() throws Exception {
@@ -62,14 +63,15 @@ class MemberApiControllerTest {
         String url = "http://localhost:" + port + "/api/check/nickname";
 
         //when
-        ResponseEntity<MemberFindByNicknameOrEmailResponse> responseNotHaveEntity
-                = restTemplate.postForEntity(url, haveNotHashMap, MemberFindByNicknameOrEmailResponse.class);
+        ResponseEntity<HashMap> responseNotHaveEntity
+                = restTemplate.postForEntity(url, haveNotHashMap, HashMap.class);
 
-        ResponseEntity<MemberFindByNicknameOrEmailResponse> responseHaveEntity
-                = restTemplate.postForEntity(url, haveHashMap, MemberFindByNicknameOrEmailResponse.class);
+        ResponseEntity<HashMap> responseHaveEntity
+                = restTemplate.postForEntity(url, haveHashMap, HashMap.class);
         //then
         assertThat(responseNotHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseNotHaveEntity.getBody()).isNull();
-        assertThat(Objects.requireNonNull(responseHaveEntity.getBody()).getNickname()).isEqualTo(hasNickName);
+        assertThat(responseNotHaveEntity.getBody().get("duplicate")).isEqualTo(false);
+        assertThat(responseHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(responseHaveEntity.getBody().get("duplicate")).isEqualTo(true);
     }
 }

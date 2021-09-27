@@ -12,5 +12,4 @@ public class MemberFindByNicknameOrEmailResponse {
     private String email;
     private String nickname;
     private String name;
-
 }

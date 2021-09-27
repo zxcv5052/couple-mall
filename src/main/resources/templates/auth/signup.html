@@ -285,7 +285,7 @@
                                                 <div class="wizard-wrapper">
                                                     <div class="wizard-number">1</div>
                                                     <div class="wizard-label">
-                                                        <div class="wizard-title" th:text="#{signup.member.set.id}"></div>
+                                                        <div class="wizard-title" th:text="#{signup.member.agreement.tc}"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -295,7 +295,7 @@
                                                 <div class="wizard-wrapper">
                                                     <div class="wizard-number">2</div>
                                                     <div class="wizard-label">
-                                                        <div class="wizard-title" th:text="#{signup.member.information}"></div>
+                                                        <div class="wizard-title" th:text="#{signup.member.set.id}"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -305,7 +305,7 @@
                                                 <div class="wizard-wrapper">
                                                     <div class="wizard-number">3</div>
                                                     <div class="wizard-label">
-                                                        <div class="wizard-title" th:text="#{signup.member.finish}"></div>
+                                                        <div class="wizard-title" th:text="#{signup.member.information}"></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -319,24 +319,24 @@
                                             <div class="row justify-content-center py-8 px-8 py-lg-15 px-lg-10">
                                                 <div class="col-xl-12 col-xxl-7">
                                                     <!--begin: Wizard Form-->
-                                                    <form class="form mt-0 mt-lg-10" id="kt_form">
+                                                    <form class="form mt-0 mt-lg-10" id="kt_form" action="/auth/signup">
                                                         <!--begin: Wizard Step 1-->
                                                         <div class="pb-5" data-wizard-type="step-content" data-wizard-state="current">
-                                                            <div class="mb-10 font-weight-bold text-dark">Enter your Account</div>
+                                                            <h4 class="mb-10 font-weight-bold text-dark" th:text="#{signup.member.agreement.tc}"></h4>
+                                                        </div>
+                                                        <!--end: Wizard Step 1-->
+                                                        <!--begin: Wizard Step 2-->
+                                                        <div class="pb-5" data-wizard-type="step-content">
+                                                            <div class="mb-10 font-weight-bold text-dark" th:text="#{signup.member.set.id}"></div>
                                                             <div class="form-group">
                                                                 <label th:text="#{common.email}"></label>
-                                                                <input type="email" class="form-control form-control-solid form-control-lg" name="email" placeholder="Email" />
+                                                                <input type="email" class="form-control form-control-solid form-control-lg" name="email" autocomplete="false" placeholder="Email" />
                                                                 <span class="form-text text-muted">Please enter your email.</span>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label th:text="#{common.password}"></label>
-                                                                <input type="password" class="form-control form-control-solid form-control-lg" name="password" placeholder="Password" />
+                                                                <input type="password" class="form-control form-control-solid form-control-lg" name="password" autocomplete="false" placeholder="Password" />
                                                                 <span class="form-text text-muted">Please enter your password.</span>
-                                                            </div>
-                                                            <div class="form-group">
-                                                                <label th:text="#{common.check.password}"></label>
-                                                                <input type="password" class="form-control form-control-solid form-control-lg" name="checkPassword" placeholder="Check Password" />
-                                                                <span class="form-text text-muted">Please again enter your password.</span>
                                                             </div>
                                                             <div class="form-group">
                                                                 <label th:text="#{common.check.password}"></label>
@@ -349,21 +349,21 @@
                                                                 <div class="col-9 col-form-label">
                                                                     <div class="checkbox-inline">
                                                                         <label class="checkbox">
-                                                                            <input type="radio" name="dividerAuth"/> 관리자
+                                                                            <input type="radio" name="dividerAuth" value="1"/> 관리자
                                                                             <span></span>
                                                                         </label>
                                                                         <label class="checkbox">
-                                                                            <input type="radio" name="dividerAuth"/> 일반 회원
+                                                                            <input type="radio" name="dividerAuth" value="2"/> 일반 회원
                                                                             <span></span>
                                                                         </label>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <!--end: Wizard Step 1-->
-                                                        <!--begin: Wizard Step 2-->
+                                                        <!--end: Wizard Step 2-->
+                                                        <!--begin: Wizard Step 3-->
                                                         <div class="pb-5" data-wizard-type="step-content">
-                                                            <div class="mb-10 font-weight-bold text-dark">Enter your Account Detail</div>
+                                                            <div class="mb-10 font-weight-bold text-dark" th:text="#{signup.member.information}"></div>
                                                             <div class="form-group">
                                                                 <label th:text="#{common.name}"></label>
                                                                 <input type="text" class="form-control form-control-solid form-control-lg" name="name" placeholder="Name" />
@@ -384,45 +384,11 @@
                                                                 <input type="text" class="form-control form-control-solid form-control-lg" name="address" placeholder="Address" />
                                                                 <span class="form-text text-muted">Please find your address.</span>
                                                             </div>
-                                                        </div>
-                                                        <!--end: Wizard Step 2-->
-                                                        <!--begin: Wizard Step 3-->
-                                                        <div class="pb-5" data-wizard-type="step-content">
-                                                            <!--begin::Section-->
-                                                            <h4 class="mb-10 font-weight-bold text-dark">Review your Details and Submit</h4>
-                                                            <h6 class="font-weight-bolder mb-3">Current Address:</h6>
-                                                            <div class="text-dark-50 line-height-lg">
-                                                                <div>Address Line 1</div>
-                                                                <div>Address Line 2</div>
-                                                                <div>Melbourne 3000, VIC, Australia</div>
+                                                            <div class="form-group">
+                                                                <label th:text="#{common.address}"></label>
+                                                                <input type="text" class="form-control form-control-solid form-control-lg" name="addressExact" placeholder="Address" />
+                                                                <span class="form-text text-muted">Please find your address.</span>
                                                             </div>
-                                                            <div class="separator separator-dashed my-5"></div>
-                                                            <!--end::Section-->
-                                                            <!--begin::Section-->
-                                                            <h6 class="font-weight-bolder mb-3">Delivery Details:</h6>
-                                                            <div class="text-dark-50 line-height-lg">
-                                                                <div>Package: Complete Workstation (Monitor, Computer, Keyboard &amp; Mouse)</div>
-                                                                <div>Weight: 25kg</div>
-                                                                <div>Dimensions: 110cm (w) x 90cm (h) x 150cm (L)</div>
-                                                            </div>
-                                                            <div class="separator separator-dashed my-5"></div>
-                                                            <!--end::Section-->
-                                                            <!--begin::Section-->
-                                                            <h6 class="font-weight-bolder mb-3">Delivery Service Type:</h6>
-                                                            <div class="text-dark-50 line-height-lg">
-                                                                <div>Overnight Delivery with Regular Packaging</div>
-                                                                <div>Preferred Morning (8:00AM - 11:00AM) Delivery</div>
-                                                            </div>
-                                                            <div class="separator separator-dashed my-5"></div>
-                                                            <!--end::Section-->
-                                                            <!--begin::Section-->
-                                                            <h6 class="font-weight-bolder mb-3">Delivery Address:</h6>
-                                                            <div class="text-dark-50 line-height-lg">
-                                                                <div>Address Line 1</div>
-                                                                <div>Address Line 2</div>
-                                                                <div>Preston 3072, VIC, Australia</div>
-                                                            </div>
-                                                            <!--end::Section-->
                                                         </div>
                                                         <!--end: Wizard Step 3-->
                                                         <!--begin: Wizard Actions-->

@@ -32,7 +32,7 @@ var SignUp = function () {
 							confirmButton: "btn font-weight-bold btn-light"
 						}
 					}).then(function () {
-						KTUtil.scrollTop();
+
 					});
 				}
 			});
@@ -52,6 +52,17 @@ var SignUp = function () {
 		_validations.push(FormValidation.formValidation(
 			_formEl,
 			{
+				plugins: {
+					trigger: new FormValidation.plugins.Trigger(),
+					bootstrap: new FormValidation.plugins.Bootstrap()
+				}
+			}
+		));
+
+		// Step 2
+		_validations.push(FormValidation.formValidation(
+			_formEl,
+			{
 				fields: {
 					email: {
 						validators: {
@@ -60,13 +71,14 @@ var SignUp = function () {
 							},
 							emailAddress: {
 								message: '이메일 형식이 아닙니다.'
-							},
-							callback: {
-								message: '중복된 이메일입니다.',
-								callback: function(input) {
-									return $("input[name=validEmail]").val() !== 'false';
-								}
 							}
+							// 나중에 이메일 체크 만들면 처리해야함
+							// callback: {
+							// 	message: '중복된 이메일입니다.',
+							// 	callback: function(input) {
+							// 		return $("input[name=validEmail]").val() !== 'true';
+							// 	}
+							// }
 						}
 					},
 					password: {
@@ -103,107 +115,12 @@ var SignUp = function () {
 			}
 		));
 
-		// Step 2
-		_validations.push(FormValidation.formValidation(
-			_formEl,
-			{
-				fields: {
-					phone: {
-						validators: {
-							notEmpty: {
-								message: 'Phone is required'
-							}
-						}
-					},
-					address1: {
-						validators: {
-							notEmpty: {
-								message: 'Address is required'
-							}
-						}
-					},
-					postcode: {
-						validators: {
-							notEmpty: {
-								message: 'Postcode is required'
-							}
-						}
-					},
-					city: {
-						validators: {
-							notEmpty: {
-								message: 'City is required'
-							}
-						}
-					},
-					state: {
-						validators: {
-							notEmpty: {
-								message: 'State is required'
-							}
-						}
-					},
-					country: {
-						validators: {
-							notEmpty: {
-								message: 'Country is required'
-							}
-						}
-					}
-				},
-				plugins: {
-					trigger: new FormValidation.plugins.Trigger(),
-					bootstrap: new FormValidation.plugins.Bootstrap()
-				}
-			}
-		));
-
 		// Step 3
 		_validations.push(FormValidation.formValidation(
 			_formEl,
 			{
 				fields: {
-					ccname: {
-						validators: {
-							notEmpty: {
-								message: 'Credit card name is required'
-							}
-						}
-					},
-					ccnumber: {
-						validators: {
-							notEmpty: {
-								message: 'Credit card number is required'
-							},
-							creditCard: {
-								message: 'The credit card number is not valid'
-							}
-						}
-					},
-					ccmonth: {
-						validators: {
-							notEmpty: {
-								message: 'Credit card month is required'
-							}
-						}
-					},
-					ccyear: {
-						validators: {
-							notEmpty: {
-								message: 'Credit card year is required'
-							}
-						}
-					},
-					cccvv: {
-						validators: {
-							notEmpty: {
-								message: 'Credit card CVV is required'
-							},
-							digits: {
-								message: 'The CVV value is not valid. Only numbers is allowed'
-							}
-						}
-					}
+
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
