@@ -4,8 +4,6 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Data
-@AllArgsConstructor
 @Getter
 @NoArgsConstructor
 @Entity
@@ -27,6 +25,9 @@ public class Member {
     private String name;
 
     @Column(nullable = false)
+    private String phone;
+
+    @Column(nullable = false)
     private String addressCd;
 
     @Column(nullable = false)
@@ -42,6 +43,21 @@ public class Member {
     private String fcmToken;
 
     @Column(nullable = false)
-    private Integer auth;
+    private String auth;
 
+    @Builder    // 초기에 저장할 때만 사용
+    public Member(String email, String password, String nickname, String name, String phone, String addressCd,
+                  String address, String addressExact, Long defaultAddr, String fcmToken, String auth) {
+        this.email = email;
+        this.password = password;
+        this.nickname = nickname;
+        this.name = name;
+        this.phone = phone;
+        this.addressCd = addressCd;
+        this.address = address;
+        this.addressExact = addressExact;
+        this.defaultAddr = defaultAddr;
+        this.fcmToken = fcmToken;
+        this.auth = auth;
+    }
 }

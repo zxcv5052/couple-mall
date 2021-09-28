@@ -1,4 +1,4 @@
-let Utils = function () {
+let MethodUtils = function () {
     var ajax = function(option){
         var type = option.type==null ? "post" : option.type;
         var url = option.url==null ? "" : option.url;
@@ -45,6 +45,26 @@ let Utils = function () {
     return {
         ajax: function (options) {
             ajax(options);
+        },
+        matchPhone : function (input) {
+            return (input.match(RegexUtils.getRegexPhoneNotDash()) !== null)
+                || (input.match(RegexUtils.getRegexPhone()) !== null);
+        }
+    }
+}
+let RegexUtils = function () {
+    return {
+        getRegexPhoneNotDash: function () {
+            return /^\d{11}$/;
+        },
+        getRegexPhone: function () {
+            return /^[0-9]{3}[-]+[0-9]{4}[-]+[0-9]{4}$/;
+        },
+        getRegexPassword: function () {
+            return /(?=.*\d)(?=.*[a-z]).{8,}/;
+        },
+        getRegexEmail: function () {
+            return /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$/;
         }
     }
 }

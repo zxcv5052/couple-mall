@@ -1,30 +1,30 @@
 "use strict";
 
 // Class definition
-var SignUp = function () {
+let SignUp = function () {
 	// Base elements
-	var _wizardEl;
-	var _formEl;
-	var _wizard;
-	var _validations = [];
+	let _wizardEl;
+	let _formEl;
+	let _wizard;
+	let _validations = [];
 
 	// Private functions
-	var initWizard = function () {
+	let initWizard = function () {
 		// Initialize form wizard
 		_wizard = new KTWizard(_wizardEl, {
 			startStep: 1, // initial active step number
 			clickableSteps: true  // allow step clicking
-		});
 
+		});
 		// Validation before going to next page
 		_wizard.on('beforeNext', function (wizard) {
-			_validations[wizard.getStep() - 1].validate().then(function (status) {
+			_validations[wizard.getStep()-1].validate().then(function (status) {
 				if (status === 'Valid') {
 					_wizard.goNext();
 					KTUtil.scrollTop();
 				} else {
 					Swal.fire({
-						text: "오류가 발생하였습니다. 확인해주세요.",
+						text: "입력 값을 확인 하세요.",
 						icon: "error",
 						buttonsStyling: false,
 						confirmButtonText: "OK",
@@ -36,7 +36,6 @@ var SignUp = function () {
 					});
 				}
 			});
-
 			_wizard.stop();  // Don't go to the next step
 		});
 
@@ -46,9 +45,7 @@ var SignUp = function () {
 		});
 	}
 
-	var initValidation = function () {
-		// Init form validation rules. For more info check the FormValidation plugin's official documentation:https://formvalidation.io/
-		// Step 1
+	let initValidation = function () {
 		_validations.push(FormValidation.formValidation(
 			_formEl,
 			{
@@ -120,7 +117,35 @@ var SignUp = function () {
 			_formEl,
 			{
 				fields: {
-
+					name: {
+						validators: {
+							notEmpty: {
+								message: '필수값 입니다.'
+							}
+						}
+					},
+					nickname: {
+						validators: {
+							notEmpty: {
+								message: '필수값 입니다.'
+							}
+						}
+					},
+					phone: {
+						validators: {
+							notEmpty: {
+								message: '필수값 입니다.'
+							},
+							callback: {
+								message: '번호 입력을 확인 하세요.',
+								callback: function(input) {
+									console.log($("input[name=phone]").val());
+									console.log(MethodUtils.matchPhone($("input[name=phone]").val()))
+									return MethodUtils.matchPhone($("input[name=phone]").val());
+								}
+							}
+						}
+					}
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -129,7 +154,17 @@ var SignUp = function () {
 			}
 		));
 	}
-
+	let submitListener = function () {
+		$("button[name=submitForm]").on('click', function (e) {
+			e.preventDefault();
+			const data = {
+				"email" : $("input[name=email]").val()
+			}
+			MethodUtils.ajax({
+				"url" : ""
+			})
+		})
+	}
 	return {
 		// public functions
 		init: function () {
@@ -138,10 +173,10 @@ var SignUp = function () {
 
 			initWizard();
 			initValidation();
+			submitListener();
 		}
 	};
 }();
-
 jQuery(document).ready(function () {
 	SignUp.init();
 });

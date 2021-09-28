@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.HashMap;
-import java.util.Objects;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -47,9 +46,13 @@ class MemberApiControllerTest {
                 = restTemplate.postForEntity(url, haveHashMap, HashMap.class);
         //then
         assertThat(responseNotHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseNotHaveEntity.getBody().get("duplicate")).isEqualTo(false);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Boolean> notHaveData = (HashMap<String, Boolean>) responseNotHaveEntity.getBody().get("data");
+        assertThat(notHaveData.get("duplicate")).isEqualTo(false);
         assertThat(responseHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseHaveEntity.getBody().get("duplicate")).isEqualTo(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Boolean> haveData = (HashMap<String, Boolean>) responseHaveEntity.getBody().get("data");
+        assertThat(haveData.get("duplicate")).isEqualTo(true);
     }
     @Test
     public void 닉네임_체크() throws Exception {
@@ -70,8 +73,30 @@ class MemberApiControllerTest {
                 = restTemplate.postForEntity(url, haveHashMap, HashMap.class);
         //then
         assertThat(responseNotHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseNotHaveEntity.getBody().get("duplicate")).isEqualTo(false);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Boolean> notHaveData = (HashMap<String, Boolean>) responseNotHaveEntity.getBody().get("data");
+        assertThat(notHaveData.get("duplicate")).isEqualTo(false);
         assertThat(responseHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseHaveEntity.getBody().get("duplicate")).isEqualTo(true);
+        @SuppressWarnings("unchecked")
+        HashMap<String, Boolean> haveData = (HashMap<String, Boolean>) responseHaveEntity.getBody().get("data");
+        assertThat(haveData.get("duplicate")).isEqualTo(true);
+    }
+
+    @Test
+    public void 회원_등록() throws Exception {
+        //given
+        MemberRegisterRequest unPerfectRequest = MemberRegisterRequest.builder().build();
+        MemberRegisterRequest perfectRequest = MemberRegisterRequest.builder().build();
+        String url = "http://localhost:" + port + "/api/member";
+
+        //when
+        ResponseEntity<HashMap> someRequestEmpty
+                = restTemplate.postForEntity(url, unPerfectRequest, HashMap.class);
+
+        ResponseEntity<HashMap> response
+                = restTemplate.postForEntity(url, perfectRequest, HashMap.class);
+        //then
+        assertThat(someRequestEmpty.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }

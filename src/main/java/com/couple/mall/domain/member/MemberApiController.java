@@ -1,14 +1,16 @@
 package com.couple.mall.domain.member;
 
+import com.couple.mall.domain.common.ErrorCode;
 import com.couple.mall.domain.common.ResponseEntity;
 import com.couple.mall.domain.common.ResponseException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Locale;
 
@@ -24,6 +26,7 @@ public class MemberApiController {
         try {
             return ResponseEntity.success(memberService.findByEmail(request.get("email"), locale));
         }catch(ResponseException ex) {
+            log.warn(ex.toString());
             return ResponseEntity.error(ex.getCode(), ex.getLocalizedMessage());
         }
     }
@@ -32,6 +35,25 @@ public class MemberApiController {
     public ResponseEntity<?> checkNicknameResponse(@RequestBody HashMap<String, String> request){
         try {
             return ResponseEntity.success(memberService.findByNickname(request.get("nickname"),locale));
+        }catch(ResponseException ex) {
+            log.warn(ex.toString());
+            return ResponseEntity.error(ex.getCode(), ex.getLocalizedMessage());
+        }
+    }
+
+    @PostMapping("/api/signup")
+    public ResponseEntity<?> registerMember(@RequestBody @Valid MemberRegisterRequest request, BindingResult bindingResult){
+        try {
+            if(bindingResult.hasErrors()) {
+                HashMap<String, String> data = new HashMap<>();
+                bindingResult.getAllErrors().forEach(objectError-> {
+                    data.put("code",objectError.getCode());
+                    data.put("message",objectError.getDefaultMessage());
+                    data.put("name", objectError.getObjectName());
+                });
+                return ResponseEntity.multiErrors(ErrorCode.INVALID_PARAMETER, data);
+            }
+            return ResponseEntity.success(memberService.register(request,locale));
         }catch(ResponseException ex) {
             return ResponseEntity.error(ex.getCode(), ex.getLocalizedMessage());
         }

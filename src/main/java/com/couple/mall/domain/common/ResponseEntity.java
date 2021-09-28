@@ -24,6 +24,13 @@ public class ResponseEntity<D> {
         result.setSuccess(false);
         return result;
     }
+    public static <D> ResponseEntity<D> multiErrors(ErrorCode errorCode, D data) {
+        ResponseEntity<D> result = new ResponseEntity<>();
+        result.setError(errorCode, "CHECK PARAMETERS");
+        result.setData(data);
+        result.setSuccess(false);
+        return result;
+    }
 
     public static ResponseEntity<Void> success() {
         ResponseEntity<Void> result = new ResponseEntity<>();
@@ -33,6 +40,13 @@ public class ResponseEntity<D> {
     }
 
     public static ResponseEntity<Void> error(ErrorCode errorCode, String errorMessage) {
+        ResponseEntity<Void> result = new ResponseEntity<>();
+        result.setError(errorCode, errorMessage);
+        result.setSuccess(false);
+        return result;
+    }
+
+    public static ResponseEntity<Void> error(String errorCode, String errorMessage) {
         ResponseEntity<Void> result = new ResponseEntity<>();
         result.setError(errorCode, errorMessage);
         result.setSuccess(false);
@@ -69,6 +83,13 @@ public class ResponseEntity<D> {
             header = new Header();
         }
         header.setErrCd(errorCode.code);
+        header.setErrMsg(errMsg);
+    }
+    public void setError(String errorCode, String errMsg) {
+        if (header == null) {
+            header = new Header();
+        }
+        header.setErrCd(errorCode);
         header.setErrMsg(errMsg);
     }
 

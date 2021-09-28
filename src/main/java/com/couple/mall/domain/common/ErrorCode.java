@@ -22,7 +22,7 @@ public enum ErrorCode {
    , LOGIN_FAIL_PASSWORD("E0012") // 로그인 시 패스워드 틀렸을때
    , INCORRECT_PASSWORD("E0013") // 패스워드가 틀림 (인증된 사용자의 패스워드 변경시)
 
-   , EMPTY_PARAMETER("E0014") // 비어있는 파라미터
+    , EMPTY_PARAMETER("E0014") // 비어있는 파라미터
 
         /* end */
     ;
