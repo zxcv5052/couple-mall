@@ -1,0 +1,6 @@
+.error.error-500 .error-title {
+  font-size: 7rem !important; }
+
+@media (min-width: 768px) {
+  .error.error-500 .error-title {
+    font-size: 14rem !important; } }

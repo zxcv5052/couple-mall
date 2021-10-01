@@ -1,0 +1,6 @@
+.error.error-404 .error-title {
+  font-size: 8.7rem !important; }
+
+@media (min-width: 768px) {
+  .error.error-404 .error-title {
+    font-size: 15.7rem !important; } }

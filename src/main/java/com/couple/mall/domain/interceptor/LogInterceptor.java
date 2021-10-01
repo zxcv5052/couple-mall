@@ -7,7 +7,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 
 /**
  * Request -> WAS -> Filter -> Servlet -> Spring Intercepter -> Controller
@@ -27,7 +26,7 @@ public class LogInterceptor implements HandlerInterceptor {
         if(handler instanceof HandlerMethod){
             HandlerMethod hm = (HandlerMethod) handler;
         }
-        log.info("REQUEST [{}][{}][{}]", UUID, requestURI, handler);
+        log.info("REQUEST [{}][{}][{}][{}]", UUID, requestURI, request.getDispatcherType() ,handler);
         return true;
     }
 

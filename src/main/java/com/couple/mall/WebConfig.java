@@ -21,6 +21,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/assets/**","/error");
+                .excludePathPatterns("/assets/**");
     }
 }
