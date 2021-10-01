@@ -1,4 +1,4 @@
-package com.couple.mall.domain.member;
+package com.couple.mall.domain.jpa.member;
 
 import lombok.*;
 

@@ -1,7 +1,7 @@
-package com.couple.mall.domain.member;
+package com.couple.mall.domain.register;
 
+import com.couple.mall.domain.jpa.member.Member;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -9,7 +9,7 @@ import javax.validation.constraints.*;
 
 @Getter
 @NoArgsConstructor
-public class MemberRegisterRequest {
+public class RegisterRequest {
     @NotBlank(message="EMAIL IS REQUIRED")
     private String email;
     @NotNull(message = "PASSWORD REQUIRED")
@@ -33,8 +33,8 @@ public class MemberRegisterRequest {
     private String addressExact;
 
     @Builder
-    public MemberRegisterRequest(String email, String password, String nickname, String dividerAuth,
-                                 String name, String phone, String address, String addressCd, String addressExact) {
+    public RegisterRequest(String email, String password, String nickname, String dividerAuth,
+                           String name, String phone, String address, String addressCd, String addressExact) {
         this.email = email;
         this.password = password;
         this.nickname = nickname;

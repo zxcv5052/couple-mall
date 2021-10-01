@@ -1,4 +1,4 @@
-package com.couple.mall.domain.member;
+package com.couple.mall.domain.register;
 
 import com.couple.mall.domain.common.ErrorCode;
 import com.couple.mall.domain.common.ResponseEntity;
@@ -17,8 +17,8 @@ import java.util.Locale;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class MemberApiController {
-    private final MemberService memberService;
+public class RegisterApiController {
+    private final RegisterService memberService;
     private final Locale locale = new Locale("ko", "KR");
 
     @PostMapping("/api/check/email")
@@ -41,21 +41,21 @@ public class MemberApiController {
         }
     }
 
-    @PostMapping("/api/signup")
-    public ResponseEntity<?> registerMember(@RequestBody @Valid MemberRegisterRequest request, BindingResult bindingResult){
-        try {
-            if(bindingResult.hasErrors()) {
-                HashMap<String, String> data = new HashMap<>();
-                bindingResult.getAllErrors().forEach(objectError-> {
-                    data.put("code",objectError.getCode());
-                    data.put("message",objectError.getDefaultMessage());
-                    data.put("name", objectError.getObjectName());
-                });
-                return ResponseEntity.multiErrors(ErrorCode.INVALID_PARAMETER, data);
-            }
-            return ResponseEntity.success(memberService.register(request,locale));
-        }catch(ResponseException ex) {
-            return ResponseEntity.error(ex.getCode(), ex.getLocalizedMessage());
-        }
-    }
+//    @PostMapping("/api/register")
+//    public ResponseEntity<?> registerMember(@RequestBody @Valid RegisterRequest request, BindingResult bindingResult){
+//        try {
+//            if(bindingResult.hasErrors()) {
+//                HashMap<String, String> data = new HashMap<>();
+//                bindingResult.getAllErrors().forEach(objectError-> {
+//                    data.put("code",objectError.getCode());
+//                    data.put("message",objectError.getDefaultMessage());
+//                    data.put("name", objectError.getObjectName());
+//                });
+//                return ResponseEntity.multiErrors(ErrorCode.INVALID_PARAMETER, data);
+//            }
+//            return ResponseEntity.success(memberService.register(request,locale));
+//        }catch(ResponseException ex) {
+//            return ResponseEntity.error(ex.getCode(), ex.getLocalizedMessage());
+//        }
+//    }
 }

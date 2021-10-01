@@ -1,7 +1,9 @@
-package com.couple.mall.domain.member;
+package com.couple.mall.domain.register;
 
 import com.couple.mall.domain.common.ErrorCode;
 import com.couple.mall.domain.common.ResponseException;
+import com.couple.mall.domain.jpa.member.Member;
+import com.couple.mall.domain.jpa.member.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.MessageSource;
@@ -14,7 +16,7 @@ import java.util.Locale;
 @Slf4j
 @RequiredArgsConstructor
 @Service
-public class MemberService {
+public class RegisterService {
     private final MemberRepository memberRepository;
     private final MessageSource messageSource;
 
@@ -22,7 +24,8 @@ public class MemberService {
     public HashMap<String, Boolean> findByEmail(String params, Locale locale) throws ResponseException {
         try{
             HashMap<String, Boolean> response = new HashMap<>();
-            Member byEmail = memberRepository.findByEmail(params);
+            Member byEmail = memberRepository.findByEmail(params)
+                    .orElse(null);
             response.put("duplicate", byEmail != null);
             return response;
         }catch (Exception e){
@@ -34,21 +37,9 @@ public class MemberService {
     public HashMap<String, Boolean> findByNickname(String params,Locale locale) throws ResponseException {
         try {
             HashMap<String, Boolean> response = new HashMap<>();
-            Member byNickname = memberRepository.findByNickname(params);
+            Member byNickname = memberRepository.findByNickname(params)
+                    .orElse(null);
             response.put("duplicate", byNickname != null);
-            return response;
-        }catch (Exception e){
-            throw new ResponseException(ErrorCode.ERROR_PERSISTENCE, messageSource.getMessage("common.data.error.exception",null,locale));
-        }
-    }
-
-
-    @Transactional(readOnly = true)
-    public HashMap<String, String> register(MemberRegisterRequest params,Locale locale) throws ResponseException {
-        try {
-            HashMap<String, String> response = new HashMap<>();
-            String email = memberRepository.save(params.toEntity()).getEmail();
-            response.put("email", email);
             return response;
         }catch (Exception e){
             throw new ResponseException(ErrorCode.ERROR_PERSISTENCE, messageSource.getMessage("common.data.error.exception",null,locale));

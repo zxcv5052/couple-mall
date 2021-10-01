@@ -1,5 +1,6 @@
-package com.couple.mall.domain.member;
+package com.couple.mall.domain.jpa.member;
 
+import com.couple.mall.domain.register.RegisterRequest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -85,8 +86,8 @@ class MemberApiControllerTest {
     @Test
     public void 회원_등록() throws Exception {
         //given
-        MemberRegisterRequest unPerfectRequest = MemberRegisterRequest.builder().build();
-        MemberRegisterRequest perfectRequest = MemberRegisterRequest.builder().build();
+        RegisterRequest unPerfectRequest = RegisterRequest.builder().build();
+        RegisterRequest perfectRequest = RegisterRequest.builder().build();
         String url = "http://localhost:" + port + "/api/member";
 
         //when
@@ -96,7 +97,6 @@ class MemberApiControllerTest {
         ResponseEntity<HashMap> response
                 = restTemplate.postForEntity(url, perfectRequest, HashMap.class);
         //then
-        assertThat(someRequestEmpty.getStatusCode()).isEqualTo(HttpStatus.OK);
         assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 }
