@@ -37,6 +37,7 @@ public class RegisterApiController {
         try {
             return ResponseEntity.ok(memberService.findByNickname(request.get("nickname"),locale));
         }catch(ResponseException ex) {
+            log.warn(ex.toString());
             return new ResponseEntity<>(ex.getData(),null,ex.getCode());
         }
     }

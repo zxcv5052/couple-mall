@@ -3,6 +3,8 @@ package com.couple.mall.domain.api.common;
 import lombok.Data;
 import lombok.Setter;
 
+import java.util.HashMap;
+
 @Data
 @Setter
 public class Message<D> {
@@ -24,7 +26,7 @@ public class Message<D> {
     public static <D> Message<D> fail(){
         Message<D> message = new Message<>();
         message.setSuccess(false);
-        message.setData(null);
+        message.setData((D) new HashMap<String, Object>());
         return message;
     }
 }

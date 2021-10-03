@@ -330,7 +330,10 @@
                                                             <div class="mb-10 font-weight-bold text-dark" th:text="#{signup.member.set.id}"></div>
                                                             <div class="form-group">
                                                                 <label th:text="#{common.email}"></label>
-                                                                <input type="text" class="form-control form-control-solid form-control-lg" name="email" autocomplete="off" placeholder="Email" />
+                                                                <div class="justify-content-between row" style="margin: 0">
+                                                                    <input type="text" class="form-control form-control-solid form-control-lg col-9" name="email" autocomplete="off" placeholder="Email" />
+                                                                    <button name="valid-email" type="button" class="btn btn-primary font-weight-bold text-uppercase col-2" th:text="#{signup.member.valid}"></button>
+                                                                </div>
                                                                 <span class="form-text text-muted">Please enter your email.</span>
                                                             </div>
                                                             <div class="form-group">
@@ -369,11 +372,16 @@
                                                                 <input type="text" class="form-control form-control-solid form-control-lg" name="name" placeholder="Name" />
                                                                 <span class="form-text text-muted">Please enter your name.</span>
                                                             </div>
+
                                                             <div class="form-group">
                                                                 <label th:text="#{common.nickname}"></label>
-                                                                <input type="text" class="form-control form-control-solid form-control-lg" name="nickname" placeholder="NickName" />
+                                                                <div class="justify-content-between row" style="margin: 0">
+                                                                    <input type="text" class="form-control form-control-solid form-control-lg col-9" name="nickname" placeholder="NickName" />
+                                                                    <button name="valid-nickname" type="button" class="btn btn-primary font-weight-bold text-uppercase col-2" th:text="#{signup.member.valid}"></button>
+                                                                </div>
                                                                 <span class="form-text text-muted">Please enter your nickname.</span>
                                                             </div>
+                                                            <input type="hidden" name="validNickname" value="false"/>
                                                             <div class="form-group">
                                                                 <label th:text="#{common.phone}"></label>
                                                                 <input type="text" class="form-control form-control-solid form-control-lg" name="phone" placeholder="Phone" />
@@ -795,6 +803,7 @@
 <script src="/assets/js/global/scripts.bundle.js?v=7.0.3"></script>
 <!--end::Global Theme Bundle-->
 <!--begin::Page Scripts(used by this page)-->
+<script src="/assets/js/global/utils.js"></script>
 <script src="/assets/js/pages/auth/signup.js?v=7.0.3"></script>
 <!--end::Page Scripts-->
 </body>

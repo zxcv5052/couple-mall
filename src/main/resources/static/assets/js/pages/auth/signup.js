@@ -20,19 +20,20 @@ let SignUp = function () {
 		_wizard.on('beforeNext', function (wizard) {
 			_validations[wizard.getStep()-1].validate().then(function (status) {
 				if (status === 'Valid') {
+					if(wizard.getStep() === 2){
+						if($("input[name=validEmail]").val() !== 'true'){
+							MethodUtils().swalFire({
+								success: false,
+								text : "중복을 확인해주세요."
+							})
+							return;
+						}
+					}
 					_wizard.goNext();
 					KTUtil.scrollTop();
 				} else {
-					Swal.fire({
-						text: "입력 값을 확인 하세요.",
-						icon: "error",
-						buttonsStyling: false,
-						confirmButtonText: "OK",
-						customClass: {
-							confirmButton: "btn font-weight-bold btn-light"
-						}
-					}).then(function () {
-
+					MethodUtils().swalFire({
+						success : false
 					});
 				}
 			});
@@ -69,13 +70,6 @@ let SignUp = function () {
 							emailAddress: {
 								message: '이메일 형식이 아닙니다.'
 							}
-							// 나중에 이메일 체크 만들면 처리해야함
-							// callback: {
-							// 	message: '중복된 이메일입니다.',
-							// 	callback: function(input) {
-							// 		return $("input[name=validEmail]").val() !== 'true';
-							// 	}
-							// }
 						}
 					},
 					password: {
@@ -104,6 +98,13 @@ let SignUp = function () {
 							}
 						}
 					},
+					dividerAuth: {
+						validators: {
+							notEmpty: {
+								message: '필수값 입니다.'
+							}
+						}
+					}
 				},
 				plugins: {
 					trigger: new FormValidation.plugins.Trigger(),
@@ -136,13 +137,9 @@ let SignUp = function () {
 							notEmpty: {
 								message: '필수값 입니다.'
 							},
-							callback: {
-								message: '번호 입력을 확인 하세요.',
-								callback: function(input) {
-									console.log($("input[name=phone]").val());
-									console.log(MethodUtils.matchPhone($("input[name=phone]").val()))
-									return MethodUtils.matchPhone($("input[name=phone]").val());
-								}
+							regexp: {
+								regexp: RegexUtils().getRegexPhone(),
+								message: '번호 입력을 확인 하세요.'
 							}
 						}
 					}
@@ -157,12 +154,96 @@ let SignUp = function () {
 	let submitListener = function () {
 		$("button[name=submitForm]").on('click', function (e) {
 			e.preventDefault();
+			_validations[2].validate().then(function (status) {
+				if (status === 'Valid') {
+					if($("input[name=validNickname]").val() !== 'true'){
+						MethodUtils().swalFire({
+							success: false,
+							text : "중복을 확인해주세요."
+						})
+					}else{
+						const data = {
+							email : $("input[name=email]").val(),
+							password : $("input[name=password]").val(),
+							nickname : $("input[name=nicknmae]").val(),
+							name : $("input[name=name]").val(),
+							dividerAuth : $("input[name=dividerAuth]").val(),
+							phone : $("input[name=phone]").val(),
+							addressCd : $("input[name=addressCd]").val(),
+							address : $("input[name=address]").val(),
+							addressExact : $("input[name=addressExact]").val()
+						}
+						alert("good!")
+					}
+				} else {
+					MethodUtils().swalFire({
+						success : false
+					});
+				}
+			});
+		})
+	}
+	let validEmailListener = function(){
+		$("button[name=valid-email]").on('click', function (e) {
+			e.preventDefault();
+			const email = $("input[name=email]").val();
 			const data = {
-				"email" : $("input[name=email]").val()
+				email : email
 			}
-			MethodUtils.ajax({
-				"url" : ""
-			})
+			if(email === '' || email.match(RegexUtils().getRegexEmail()) === null) {
+				MethodUtils().swalFire({
+					success : false
+				})
+			}else{
+				MethodUtils().ajax({
+					url : "/api/check/email",
+					type : "POST",
+					data : data,
+					success : function (response) {
+						if(!response.success){
+							$("input[name=validEmail]").val("true");
+							$("input[name=email]").attr('readonly', true);
+						}else{
+							$("input[name=validEmail]").val("false");
+						}
+					},
+					error : function (error) {
+						console.log(error);
+					}
+				})
+			}
+		})
+	}
+
+	let validNicknameListener = function(){
+		$("button[name=valid-nickname]").on('click', function (e) {
+			e.preventDefault();
+			const nickname = $("input[name=nickname]").val();
+			const data = {
+				nickname : nickname
+			}
+			if(nickname === '') {
+				MethodUtils().swalFire({
+					success : false
+				})
+			}else{
+				MethodUtils().ajax({
+					url : "/api/check/nickname",
+					type : "POST",
+					data : data,
+					success : function (response) {
+						if(!response.success){
+							$("input[name=validNickname]").val("true");
+							$("input[name=nickname]").attr('readonly', true);
+						}else{
+							$("input[name=validNickname]").val("false");
+						}
+					},
+					error : function (error) {
+						console.log(error);
+					}
+				})
+			}
 		})
 	}
 	return {
@@ -174,6 +255,8 @@ let SignUp = function () {
 			initWizard();
 			initValidation();
 			submitListener();
+			validEmailListener();
+			validNicknameListener();
 		}
 	};
 }();

@@ -35,7 +35,7 @@ class MemberApiControllerTest {
         String haveNotEmail = "kyeong@naver.com";
         HashMap<String, String> haveNotHashMap = new HashMap<>();
         haveNotHashMap.put("email", haveNotEmail);
-        String hasEmail = "zxcv5052@naver.com";
+        String hasEmail = "zxcv5052@daum.net";
         HashMap<String, String> haveHashMap = new HashMap<>();
         haveHashMap.put("email", hasEmail);
         String url = "http://localhost:" + port + "/api/check/email";

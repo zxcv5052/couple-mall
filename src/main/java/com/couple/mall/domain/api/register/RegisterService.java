@@ -45,11 +45,9 @@ public class RegisterService {
             Member findByEmail = memberRepository.findByEmail(request.getEmail()).orElse(null);
             Member findByNickName = memberRepository.findByNickname(request.getNickname()).orElse(null);
             if(findByEmail != null){
-                log.warn("findByEmail");
                 throw new ResponseException(Message.fail(),HttpStatus.BAD_REQUEST, messageSource.getMessage("common.duplicate.data",new Object[]{"이메일"},locale));
             }
             if(findByNickName != null){
-                log.warn("findByNickName");
                 throw new ResponseException(Message.fail(),HttpStatus.BAD_REQUEST, messageSource.getMessage("common.duplicate.data",new Object[]{"닉네임"},locale));
             }
             memberRepository.save(request.toEntity());
