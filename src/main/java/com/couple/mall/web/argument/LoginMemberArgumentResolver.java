@@ -1,6 +1,6 @@
 package com.couple.mall.web.argument;
 
-import com.couple.mall.domain.login.LoginResponse;
+import com.couple.mall.domain.api.login.LoginResponse;
 import com.couple.mall.web.session.SessionConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.MethodParameter;

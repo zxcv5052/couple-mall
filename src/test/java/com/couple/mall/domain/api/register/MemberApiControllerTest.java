@@ -1,6 +1,6 @@
-package com.couple.mall.domain.jpa.member;
+package com.couple.mall.domain.api.register;
 
-import com.couple.mall.domain.register.RegisterRequest;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +15,7 @@ import java.util.HashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+@Slf4j
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 class MemberApiControllerTest {
@@ -47,13 +48,9 @@ class MemberApiControllerTest {
                 = restTemplate.postForEntity(url, haveHashMap, HashMap.class);
         //then
         assertThat(responseNotHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        @SuppressWarnings("unchecked")
-        HashMap<String, Boolean> notHaveData = (HashMap<String, Boolean>) responseNotHaveEntity.getBody().get("data");
-        assertThat(notHaveData.get("duplicate")).isEqualTo(false);
+        assertThat(responseNotHaveEntity.getBody().get("success")).isEqualTo(false);
         assertThat(responseHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        @SuppressWarnings("unchecked")
-        HashMap<String, Boolean> haveData = (HashMap<String, Boolean>) responseHaveEntity.getBody().get("data");
-        assertThat(haveData.get("duplicate")).isEqualTo(true);
+        assertThat(responseHaveEntity.getBody().get("success")).isEqualTo(true);
     }
     @Test
     public void 닉네임_체크() throws Exception {
@@ -74,29 +71,39 @@ class MemberApiControllerTest {
                 = restTemplate.postForEntity(url, haveHashMap, HashMap.class);
         //then
         assertThat(responseNotHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        @SuppressWarnings("unchecked")
-        HashMap<String, Boolean> notHaveData = (HashMap<String, Boolean>) responseNotHaveEntity.getBody().get("data");
-        assertThat(notHaveData.get("duplicate")).isEqualTo(false);
+        assertThat(responseNotHaveEntity.getBody().get("success")).isEqualTo(false);
         assertThat(responseHaveEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        @SuppressWarnings("unchecked")
-        HashMap<String, Boolean> haveData = (HashMap<String, Boolean>) responseHaveEntity.getBody().get("data");
-        assertThat(haveData.get("duplicate")).isEqualTo(true);
+        assertThat(responseHaveEntity.getBody().get("success")).isEqualTo(true);
     }
 
     @Test
     public void 회원_등록() throws Exception {
         //given
         RegisterRequest unPerfectRequest = RegisterRequest.builder().build();
-        RegisterRequest perfectRequest = RegisterRequest.builder().build();
-        String url = "http://localhost:" + port + "/api/member";
+
+        RegisterRequest perfectRequest = RegisterRequest.builder()
+                .email("zxcv5052@daum.net").password("gudtj1004!")
+                .nickname("kyeong").name("박형서").address("123").phone("01034151607").dividerAuth("2")
+                .addressCd("123123").addressExact("쌍용").build();
+
+        RegisterRequest successRequest = RegisterRequest.builder()
+                .email("zxcv5052@daum.net").password("gudtj1004!")
+                .nickname("kyeong").name("박형서").address("123").phone("01034151607").dividerAuth("2")
+                .addressCd("123123").addressExact("쌍용").build();
+
+        String url = "http://localhost:" + port + "/api/register";
 
         //when
-        ResponseEntity<HashMap> someRequestEmpty
+        ResponseEntity<HashMap> unPerfectResponse
                 = restTemplate.postForEntity(url, unPerfectRequest, HashMap.class);
-
-        ResponseEntity<HashMap> response
+        ResponseEntity<HashMap> perfectResponse
                 = restTemplate.postForEntity(url, perfectRequest, HashMap.class);
+        ResponseEntity<HashMap> duplicateResponse
+                = restTemplate.postForEntity(url, successRequest, HashMap.class);
+
         //then
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(unPerfectResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
+        assertThat(perfectResponse.getStatusCode()).isEqualTo(HttpStatus.OK);
+        assertThat(duplicateResponse.getStatusCode()).isEqualTo(HttpStatus.BAD_REQUEST);
     }
 }

@@ -1,4 +1,4 @@
-package com.couple.mall.domain.jpa.member;
+package com.couple.mall.domain.api.register;
 
 import lombok.*;
 

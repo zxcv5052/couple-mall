@@ -1,4 +1,4 @@
-package com.couple.mall.domain.login;
+package com.couple.mall.domain.api.login;
 
 import lombok.Data;
 

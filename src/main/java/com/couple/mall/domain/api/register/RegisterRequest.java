@@ -1,9 +1,9 @@
-package com.couple.mall.domain.register;
+package com.couple.mall.domain.api.register;
 
-import com.couple.mall.domain.jpa.member.Member;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import javax.validation.constraints.*;
 

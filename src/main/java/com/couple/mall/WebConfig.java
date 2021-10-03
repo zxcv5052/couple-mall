@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.List;
 
+// Error 처리하고 싶으면 ErrorController 상속 받아서 쓰자
 @Configuration
 public class WebConfig implements WebMvcConfigurer {
     @Override
@@ -21,6 +22,6 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LogInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/assets/**");
+                .excludePathPatterns("/assets/**","/error");
     }
 }

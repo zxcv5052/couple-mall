@@ -1,6 +1,6 @@
-package com.couple.mall.domain.login;
+package com.couple.mall.domain.api.login;
 
-import com.couple.mall.domain.jpa.member.MemberRepository;
+import com.couple.mall.domain.api.register.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

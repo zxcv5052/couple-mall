@@ -1,7 +1,7 @@
 package com.couple.mall.web.register;
 
-import com.couple.mall.domain.register.RegisterService;
-import com.couple.mall.domain.register.RegisterRequest;
+import com.couple.mall.domain.api.register.RegisterService;
+import com.couple.mall.domain.api.register.RegisterRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
