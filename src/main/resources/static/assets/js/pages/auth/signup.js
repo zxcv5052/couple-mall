@@ -77,11 +77,10 @@ let SignUp = function () {
 							notEmpty: {
 								message: '필수값 입니다.'
 							},
-							minLength: {
-								message: '비밀번호는 8자리 이상으로 입력해주세요.'
-							},
-							maxLength: {
-								message: '비밀번호는 14자리 이하로 입력해주세요.'
+							stringLength: {
+								max: 14,
+								min: 8,
+								message : '8~14 자리로 입력해주세요.'
 							}
 						}
 					},
@@ -137,9 +136,11 @@ let SignUp = function () {
 							notEmpty: {
 								message: '필수값 입니다.'
 							},
-							regexp: {
-								regexp: RegexUtils().getRegexPhone(),
-								message: '번호 입력을 확인 하세요.'
+							callback: {
+								message: '휴대폰 번호로 입력해주세요.',
+								callback: function(input) {
+									return MethodUtils().matchPhone($("input[name=phone]").val()) !== null;
+								}
 							}
 						}
 					}
@@ -165,7 +166,7 @@ let SignUp = function () {
 						const data = {
 							email : $("input[name=email]").val(),
 							password : $("input[name=password]").val(),
-							nickname : $("input[name=nicknmae]").val(),
+							nickname : $("input[name=nickname]").val(),
 							name : $("input[name=name]").val(),
 							dividerAuth : $("input[name=dividerAuth]").val(),
 							phone : $("input[name=phone]").val(),
@@ -173,7 +174,31 @@ let SignUp = function () {
 							address : $("input[name=address]").val(),
 							addressExact : $("input[name=addressExact]").val()
 						}
-						alert("good!")
+						console.log(data);
+						MethodUtils().ajax({
+							url : "/api/register",
+							type : "POST",
+							data : data,
+							success : function (response) {
+								if(response.success){
+									MethodUtils().swalFire({
+										success : true,
+										text : "회원가입 성공",
+										confirmButtonText : "로그인",
+										after : function(){
+											window.location.replace('/auth/login')
+										}
+									})
+								}
+							},
+							error : function (error) {
+								console.log(error);
+								MethodUtils().swalFire({
+									success : false,
+									text : "오류가 발생하였습니다. 관리자에게 문의해주세요."
+								})
+							}
+						})
 					}
 				} else {
 					MethodUtils().swalFire({
@@ -203,8 +228,16 @@ let SignUp = function () {
 						if(!response.success){
 							$("input[name=validEmail]").val("true");
 							$("input[name=email]").attr('readonly', true);
+							MethodUtils().swalFire({
+								success : true,
+								text : "중복 확인이 완료되었습니다."
+							})
 						}else{
 							$("input[name=validEmail]").val("false");
+							MethodUtils().swalFire({
+								success : false,
+								text : "중복된 이메일이 존재합니다."
+							})
 						}
 					},
 					error : function (error) {
@@ -235,8 +268,16 @@ let SignUp = function () {
 						if(!response.success){
 							$("input[name=validNickname]").val("true");
 							$("input[name=nickname]").attr('readonly', true);
+							MethodUtils().swalFire({
+								success : true,
+								text : "중복 확인이 완료되었습니다."
+							})
 						}else{
 							$("input[name=validNickname]").val("false");
+							MethodUtils().swalFire({
+								success : false,
+								text : "중복된 닉네임이 존재합니다."
+							})
 						}
 					},
 					error : function (error) {
@@ -262,4 +303,15 @@ let SignUp = function () {
 }();
 jQuery(document).ready(function () {
 	SignUp.init();
+
 });
+function openAddressSearch() {
+	new daum.Postcode({
+		oncomplete: function (data) {
+			// zonecode 우편번호
+			// address (검색 결과에서 첫줄에 나오는 주소, 검색어의 타입(지번/도로명)에 따라 달라집니다.)
+			$("input[name=addressCd]").val(data.zonecode);
+			$("input[name=address]").val(data.address);
+		}
+	}).open();
+}

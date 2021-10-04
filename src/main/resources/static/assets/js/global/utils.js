@@ -1,19 +1,26 @@
 let MethodUtils = function () {
     let swalFire = function(option){
+        let title = option.title === undefined ? null : option.title;
         let text = option.text === undefined ? "입력 값을 확인 하세요." : option.text;
         let success = option.success ? "success" : "error";
         let confirmButtonText = option.confirmButtonText === undefined ? "OK" : option.confirmButtonText;
         let afterComplete = $.isFunction(option.after) ? option.after : function(){};
+        let cancelButtonText = option.cancelButtonText === undefined ? "NO" : option.cancelButtonText;
+        let showCancelButton = option.showCancelButton !== undefined;
         Swal.fire({
+            title: title,
             text: text,
             icon: success,
             buttonsStyling: false,
             confirmButtonText: confirmButtonText,
+            showCancelButton : showCancelButton,
+            cancelButtonText : cancelButtonText,
+            closeOnClickOutside: false,
             customClass: {
                 confirmButton: "btn font-weight-bold btn-light"
             }
-        }).then(function () {
-            afterComplete();
+        }).then(function (isConfirm) {
+            afterComplete(isConfirm);
         });
     }
     let ajax = function(option){
