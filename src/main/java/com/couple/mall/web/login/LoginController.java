@@ -12,11 +12,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 @Controller
 @RequiredArgsConstructor
 public class LoginController {
-    private final LoginService loginService;
-
-    @GetMapping("/login")
-    public String loginForm(@ModelAttribute("loginRequest") LoginRequest loginRequest){
-        return "/";
+    @GetMapping("/auth/login")
+    public String loginForm(){
+        return "/auth/signin";
     }
-
 }

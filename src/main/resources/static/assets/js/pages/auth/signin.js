@@ -25,7 +25,7 @@ var KTLogin = function() {
 			KTUtil.getById('kt_login_signin_form'),
 			{
 				fields: {
-					username: {
+					email: {
 						validators: {
 							notEmpty: {
 								message: 'Username is required'
@@ -53,7 +53,7 @@ var KTLogin = function() {
             e.preventDefault();
 
             validation.validate().then(function(status) {
-		        if (status == 'Valid') {
+		        if (status === 'Valid') {
                     swal.fire({
 		                text: "All is cool! Now you submit this form",
 		                icon: "success",
