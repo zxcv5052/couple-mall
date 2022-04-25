@@ -6,8 +6,9 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 public class CoupleMallApplication {
-    //test 222
+    //test 222 slslslsslslsl
 	public static void main(String[] args) {
+		// test0222
 		SpringApplication.run(CoupleMallApplication.class, args);
 	}
 
