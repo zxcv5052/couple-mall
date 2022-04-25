@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 public class CoupleMallApplication {
-    // test01입니다. change!
+    // test05
 	public static void main(String[] args) {
 		SpringApplication.run(CoupleMallApplication.class, args);
 	}
