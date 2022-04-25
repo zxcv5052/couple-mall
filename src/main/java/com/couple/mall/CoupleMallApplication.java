@@ -6,7 +6,7 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 public class CoupleMallApplication {
-    // test05
+    // test03 update??~?!?sss
 	public static void main(String[] args) {
 		SpringApplication.run(CoupleMallApplication.class, args);
 	}
