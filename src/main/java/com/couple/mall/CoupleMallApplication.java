@@ -10,5 +10,5 @@ public class CoupleMallApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(CoupleMallApplication.class, args);
 	}
-    // test 02
+    // test 03
 }
