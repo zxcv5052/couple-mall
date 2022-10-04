@@ -8,6 +8,6 @@ import org.springframework.context.annotation.PropertySource;
 public class CoupleMallApplication { // test01
 	public static void main(String[] args) { // test 02
 		SpringApplication.run(CoupleMallApplication.class, args); // test
-	} // good
+	} // good test
 
 }
