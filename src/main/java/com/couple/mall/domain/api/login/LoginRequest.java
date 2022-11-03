@@ -13,3 +13,4 @@ public class LoginRequest {
     @NotEmpty
     private String password;
 }
+//GIT TEST 2 입니다. 
