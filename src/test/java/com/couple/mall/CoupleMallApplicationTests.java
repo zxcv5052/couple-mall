@@ -5,7 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
 class CoupleMallApplicationTests {
-//t.e.s.t
 	@Test
 	void contextLoads() {
 	}
